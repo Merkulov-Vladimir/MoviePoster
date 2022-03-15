@@ -1,37 +1,27 @@
 package ru.netology.manager;
 
 import ru.netology.domain.MoviePoster;
+import ru.netology.repository.PosterRepository;
 
 public class PosterManager {
     private MoviePoster[] moviePosters = new MoviePoster[0];
     private int limitMovies = 10;
+    private PosterRepository repository;
 
-    public PosterManager() {                // конструктор без параметров, лимит показываемых фильмов 10
+    public PosterManager(PosterRepository repository) {
+        this.repository = repository; // конструктор без параметра лимита, лимит показываемых фильмов равен 10
     }
-
-    ;
-
-    public PosterManager(int limitMovies) {  // конструктор, чтобы задать лимит
+    public PosterManager(int limitMovies, PosterRepository repository) {  // конструктор, чтобы задать лимит
         this.limitMovies = limitMovies;
+        this.repository = repository;
     }
 
-    public void addMovie(MoviePoster MoviePoster) {
-        int length = moviePosters.length + 1; // длина нового массива
-        MoviePoster[] tmp = new MoviePoster[length];     // создание нового массива типа MP с нужной длиной
-        for (int i = 0; i < moviePosters.length; i++) { // копирование построчно
-            tmp[i] = moviePosters[i];                   // каждого элемента массива
-        }
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = MoviePoster;
-        moviePosters = tmp;
-    }
-
-    public MoviePoster[] findAll() {
-        return moviePosters;
+    public void addMovie(MoviePoster moviePoster) {
+        repository.save(moviePoster);
     }
 
     public MoviePoster[] getAll() {   // вывод последних фильмов
-        MoviePoster[] moviePosters = findAll();
+        MoviePoster[] moviePosters = repository.findAll();
         int resultLength; // длина результирующего массива
         if (moviePosters.length >= limitMovies) {
             resultLength = limitMovies;
@@ -45,4 +35,6 @@ public class PosterManager {
         }
         return result;
     }
+
+
 }
