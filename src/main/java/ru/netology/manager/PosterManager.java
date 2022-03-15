@@ -15,14 +15,14 @@ public class PosterManager {
         this.limitMovies = limitMovies;
     }
 
-    public void addMovie(MoviePoster MoviePoster) {
+    public void addMovie(MoviePoster moviePoster) {
         int length = moviePosters.length + 1; // длина нового массива
         MoviePoster[] tmp = new MoviePoster[length];     // создание нового массива типа MP с нужной длиной
         for (int i = 0; i < moviePosters.length; i++) { // копирование построчно
             tmp[i] = moviePosters[i];                   // каждого элемента массива
         }
         int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = MoviePoster;
+        tmp[lastIndex] = moviePoster;
         moviePosters = tmp;
     }
 
