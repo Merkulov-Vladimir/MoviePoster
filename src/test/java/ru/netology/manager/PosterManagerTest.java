@@ -2,10 +2,15 @@ package ru.netology.manager;
 
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.MoviePoster;
+import ru.netology.repository.PosterRepository;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PosterManagerTest {
+    PosterRepository repo = new PosterRepository();
     //экземпляры класса MoviePoster
     MoviePoster one = new MoviePoster("Brat", 1);
     MoviePoster two = new MoviePoster("Brat2", 2);
@@ -20,33 +25,69 @@ class PosterManagerTest {
     MoviePoster eleven = new MoviePoster("Brat11", 11);
     MoviePoster twelve = new MoviePoster("Brat12", 12);
 
+    //
     @Test
     void addMovieForThreeMovies() {
-        PosterManager manager = new PosterManager();
-        manager.addMovie(one);
-        manager.addMovie(two);
-        manager.addMovie(three);
+        repo.save(one);
+        repo.save(two);
+        repo.save(three);
         MoviePoster[] expected = {one, two, three};
-        MoviePoster[] actual = manager.findAll();
+        MoviePoster[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    //    }
+    @Test
+    void removeById() {
+        repo.save(one);
+        repo.save(two);
+        repo.save(three);
+        repo.removeById(2);
+        MoviePoster[] expected = {one, three};
+        MoviePoster[] actual = repo.findAll();
         assertArrayEquals(expected, actual);
 
     }
 
     @Test
-    void addMovieForNullMovies() {
-        PosterManager manager = new PosterManager();
+    void removeAll() {
+        repo.save(one);
+        repo.save(two);
+        repo.save(three);
+        repo.removeAll();
         MoviePoster[] expected = {};
-        MoviePoster[] actual = manager.findAll();
+        MoviePoster[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
+    void findById() {
+        repo.save(one);
+        repo.save(two);
+        repo.save(three);
+        repo.findById(2);
+        MoviePoster[] expected = {two};
+        MoviePoster[] actual = repo.findAll();
+        assertArrayEquals(expected, actual);
+
+    }
+
+
+    @Test
+    void addMovieForNullMovies() {
+        MoviePoster[] expected = {};
+        MoviePoster[] actual = repo.findAll();
         assertArrayEquals(expected, actual);
 
     }
 
     @Test
     void getAllForLimitsOneMovieWhenAddThreeMovie() {
-        PosterManager manager = new PosterManager(1);
-        manager.addMovie(one);
-        manager.addMovie(two);
-        manager.addMovie(three);
+        PosterManager manager = new PosterManager(1, repo);
+        repo.save(one);
+        repo.save(two);
+        repo.save(three);
         MoviePoster[] expected = {three};
         MoviePoster[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
@@ -54,7 +95,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsNullMovieWhenAddNullMovies() {
-        PosterManager manager = new PosterManager(0);
+        PosterManager manager = new PosterManager(0, repo);
         MoviePoster[] expected = {};
         MoviePoster[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
@@ -62,7 +103,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsNullMovieWhenAddOneMovie() {
-        PosterManager manager = new PosterManager(0);
+        PosterManager manager = new PosterManager(0, repo);
         manager.addMovie(one);
         MoviePoster[] expected = {};
         MoviePoster[] actual = manager.getAll();
@@ -71,7 +112,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsFourMovieWhenAddSixMovies() {
-        PosterManager manager = new PosterManager(4);
+        PosterManager manager = new PosterManager(4, repo);
         manager.addMovie(one);
         manager.addMovie(two);
         manager.addMovie(three);
@@ -85,7 +126,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsDefaultConstructorWhenMovieTwelve() {                    // limits = 10
-        PosterManager manager = new PosterManager();
+        PosterManager manager = new PosterManager(repo);
         manager.addMovie(one);
         manager.addMovie(two);
         manager.addMovie(three);
@@ -105,7 +146,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsDefaultConstructorWhenMovieTen() {                    // limits = 10
-        PosterManager manager = new PosterManager();
+        PosterManager manager = new PosterManager(repo);
         manager.addMovie(one);
         manager.addMovie(two);
         manager.addMovie(three);
@@ -123,7 +164,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsDefaultConstructorWhenMovieEleven() {                    // limits = 10
-        PosterManager manager = new PosterManager();
+        PosterManager manager = new PosterManager(repo);
         manager.addMovie(one);
         manager.addMovie(two);
         manager.addMovie(three);
@@ -142,7 +183,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsDefaultConstructorWhenMovieNine() {                    // limits = 10
-        PosterManager manager = new PosterManager();
+        PosterManager manager = new PosterManager(repo);
         manager.addMovie(one);
         manager.addMovie(two);
         manager.addMovie(three);
@@ -159,7 +200,7 @@ class PosterManagerTest {
 
     @Test
     void getAllForLimitsDefaultConstructorWhenMovieNull() {                    // limits = 10
-        PosterManager manager = new PosterManager();
+        PosterManager manager = new PosterManager(repo);
         MoviePoster[] expected = {};
         MoviePoster[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
