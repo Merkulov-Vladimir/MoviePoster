@@ -9,8 +9,6 @@ public class PosterManager {
     public PosterManager() {                // конструктор без параметров, лимит показываемых фильмов 10
     }
 
-    ;
-
     public PosterManager(int limitMovies) {  // конструктор, чтобы задать лимит
         this.limitMovies = limitMovies;
     }
@@ -18,9 +16,7 @@ public class PosterManager {
     public void addMovie(MoviePoster moviePoster) {
         int length = moviePosters.length + 1; // длина нового массива
         MoviePoster[] tmp = new MoviePoster[length];     // создание нового массива типа MP с нужной длиной
-        for (int i = 0; i < moviePosters.length; i++) { // копирование построчно
-            tmp[i] = moviePosters[i];                   // каждого элемента массива
-        }
+        System.arraycopy(moviePosters, 0, tmp, 0, moviePosters.length);
         int lastIndex = tmp.length - 1;
         tmp[lastIndex] = moviePoster;
         moviePosters = tmp;
