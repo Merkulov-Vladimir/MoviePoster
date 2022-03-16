@@ -37,12 +37,12 @@ public class PosterRepository {
     }
 
     public MoviePoster findById(int id) {
-        MoviePoster[] tmp = new MoviePoster[1];
+        MoviePoster tmp = new MoviePoster();
         for (MoviePoster moviePoster : moviePosters) {
             if (moviePoster.getId() == id) {
-                tmp[0] = moviePoster;
+                tmp = moviePoster;
             }
         }
-        return tmp[0];
+        return tmp;
     }
 }
