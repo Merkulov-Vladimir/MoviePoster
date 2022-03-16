@@ -66,10 +66,10 @@ class PosterManagerTest {
         repo.save(one);
         repo.save(two);
         repo.save(three);
-        repo.findById(2);
-        MoviePoster[] expected = {two};
-        MoviePoster[] actual = repo.findAll();
-        assertArrayEquals(expected, actual);
+//        repo.findById(2);
+        MoviePoster expected = two;
+        MoviePoster actual = repo.findById(2);
+        assertEquals(expected, actual);
 
     }
 

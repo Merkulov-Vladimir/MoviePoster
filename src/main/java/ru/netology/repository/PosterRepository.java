@@ -8,9 +8,7 @@ public class PosterRepository {
     public void save(MoviePoster moviePoster) {
         int length = moviePosters.length + 1; // длина нового массива
         MoviePoster[] tmp = new MoviePoster[length];     // создание нового массива типа MP с нужной длиной
-        for (int i = 0; i < moviePosters.length; i++) { // копирование построчно
-            tmp[i] = moviePosters[i];                   // каждого элемента массива
-        }
+        System.arraycopy(moviePosters, 0, tmp, 0, moviePosters.length);
         int lastIndex = tmp.length - 1;
         tmp[lastIndex] = moviePoster;
         moviePosters = tmp;
@@ -22,7 +20,7 @@ public class PosterRepository {
 
     public void removeById(int id) {
         int resultLength = moviePosters.length - 1; // длина нового массива
-        MoviePoster tmp[] = new MoviePoster[resultLength]; // создание нового массива дляной resultLength
+        MoviePoster[] tmp = new MoviePoster[resultLength]; // создание нового массива дляной resultLength
         int index = 0;
         for (MoviePoster moviePoster : moviePosters) {
             if (moviePoster.getId() != id) {
@@ -35,19 +33,16 @@ public class PosterRepository {
     }
 
     public void removeAll() {
-        MoviePoster[] tmp = new MoviePoster[0]; // создание пустого массива
-        moviePosters = tmp;
+        moviePosters = new MoviePoster[0]; // обнуляем
     }
 
-    public MoviePoster[] findById(int id) {
+    public MoviePoster findById(int id) {
         MoviePoster[] tmp = new MoviePoster[1];
-        for (MoviePoster moviePoster : moviePosters
-        ) {
+        for (MoviePoster moviePoster : moviePosters) {
             if (moviePoster.getId() == id) {
                 tmp[0] = moviePoster;
             }
         }
-        moviePosters = tmp;
-        return moviePosters;
+        return tmp[0];
     }
 }

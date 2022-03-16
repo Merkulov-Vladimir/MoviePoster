@@ -4,13 +4,13 @@ import ru.netology.domain.MoviePoster;
 import ru.netology.repository.PosterRepository;
 
 public class PosterManager {
-    private MoviePoster[] moviePosters = new MoviePoster[0];
     private int limitMovies = 10;
     private PosterRepository repository;
 
     public PosterManager(PosterRepository repository) {
         this.repository = repository; // конструктор без параметра лимита, лимит показываемых фильмов равен 10
     }
+
     public PosterManager(int limitMovies, PosterRepository repository) {  // конструктор, чтобы задать лимит
         this.limitMovies = limitMovies;
         this.repository = repository;
